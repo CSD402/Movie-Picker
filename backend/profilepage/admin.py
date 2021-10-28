@@ -8,10 +8,9 @@ Configure Admin Side Views for each model:
 This controls how they appear on the admin view panel
 '''
 
-class AdminCustomer(admin.ModelAdmin):
+class AdminProfile(admin.ModelAdmin):
     list_display = ['id', 'firstname', 'lastname', 'email', 'date_created']
 
 
-
 ''' Model Registration '''
-admin.site.register(Customer, AdminCustomer)
+admin.site.register(Profile, AdminProfile)
