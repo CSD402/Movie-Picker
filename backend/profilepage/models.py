@@ -9,15 +9,16 @@ from django.http.response import StreamingHttpResponse
 class Profile(models.Model):
     firstname = models.CharField(max_length=200, null=False, default="John") 
     lastname = models.CharField(max_length=200, null=True)
-    email = models.EmailField()
-    password = models.CharField(max_length=500)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True) 
+    email = models.EmailField(default='email@email.com')
+    password = models.CharField(max_length=500, null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_updated = models.DateTimeField(auto_now=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile', blank=True, null=True)
 
     # Override the __str__ method to return the firstname and lastname
     def __str__(self):
         return self.firstname + " " + self.lastname
-
+ 
     ''' Functions to get users by various filtering methods '''
     @staticmethod
     def get_user_by_email(email):
