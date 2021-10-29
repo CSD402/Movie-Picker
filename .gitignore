@@ -1,3 +1,4 @@
 backend/env/
 notebooks/data/ratings.csv
 notebooks/data/credits.csv
+backend/minder
