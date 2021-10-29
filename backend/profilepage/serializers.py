@@ -26,7 +26,7 @@ class RelatedFieldAlternative(serializers.PrimaryKeyRelatedField):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ('firstname', 'lastname', 'email', 'date_created', 'profile_picture')
 
 ''' Register Customer Serializer Class '''
 class RegisterUserSerializer(serializers.ModelSerializer):
