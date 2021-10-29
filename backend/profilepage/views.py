@@ -24,7 +24,51 @@ class ProfilePageView(APIView):
 
     def get(self, request):
 
-        # Get all the data from the database
-        queryset = Profile.objects.all()
+        ''' GET Request Handler: Display all the customers queried by the user ID '''
+        
+        # Collect the id for the store to be displayed
+        user_id = request.GET.get('id')
+
+        if user_id:
+            # Query the database for the user id
+            queryset = Profile.objects.filter(id=user_id)
+
+        else: 
+            # Get all the data from the database
+            queryset = Profile.objects.all()
         
         return Response(ProfileSerializer(queryset, many=True).data)
+
+class RegisterUser(APIView):
+    
+        ''' Register a new user '''
+    
+        serializer_class = RegisterUserSerializer
+    
+        def post(self, request, format=None): 
+    
+            ''' POST Request Handler: Register a new user '''
+
+            # Serializer instance 
+            serializer = self.serializer_class(data=request.data)
+
+            # Data to be returned 
+            data = {}
+
+            # Check if the serializer is valid
+            if serializer.is_valid():
+                
+                new_user = serializer.save()
+
+                data['success'] = True
+                data['email'] = new_user.email
+                data['firstname'] = new_user.firstname
+                data['lastname'] = new_user.lastname
+
+            else: 
+                data = serializer.errors
+            
+            return Response(data)
+
+class LoginUser(APIView):
+    pass 
