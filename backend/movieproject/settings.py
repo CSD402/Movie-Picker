@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profilepage.apps.ProfilepageConfig', 
+    'room.apps.RoomConfig', 
     'rest_framework',
 ]
 
