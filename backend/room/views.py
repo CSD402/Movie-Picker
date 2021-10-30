@@ -19,10 +19,21 @@ from .serializers import *
 class RoomSwipeView(APIView):
 
     # Define a class variables 
+    serializer_class = MovieSerializer
+    queryset = []
 
-    def get(self,request):
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies,many=True)
-        data = Response(serializer.data)
-        # print(data.data)
-        return Response(data.data)
+    def get(self, request):
+
+        # Get the room id from the request
+        movie_id = request.GET.get('id')
+        
+        if movie_id: 
+            queryset = Movie.objects.filter(id=movie_id)
+
+        else: 
+            queryset = Movie.objects.all()
+        
+        print(queryset)
+        
+        return Response(MovieSerializer(queryset, many=True).data)
+        
