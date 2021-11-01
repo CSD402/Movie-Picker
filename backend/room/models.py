@@ -10,6 +10,7 @@ class Movie(models.Model):
     movie_description = models.TextField(default='')
     movie_genre = models.CharField(max_length=100)
     movie_date_released = models.DateField(null=True)
+    movie_swiped = models.BooleanField(default = False)
     
     # movie_image = models.ImageField(upload_to='profile', blank=True, null=True)
 
