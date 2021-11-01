@@ -41,7 +41,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         }
         
     # Function to save a new user 
-    def create(self):
+    def save(self):
         
         new_user = Profile(
             email = self.validated_data['email'],
