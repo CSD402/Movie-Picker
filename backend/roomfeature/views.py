@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.serializers import Serializer
-from rest_framework.views import APIView
+from rest_framework.views import APIView, View
 from django.http import HttpResponse, JsonResponse
 from itertools import chain
 from rest_framework import viewsets
@@ -91,12 +91,21 @@ class MovieView(APIView):
 ''' Create a view to swipe over movies '''
 class SwipeView(APIView):
 
+    serializer_class = MovieSerializer
+
     def get(self, request):
         
         # Collect room ID and movie ID 
-        room_id = request.GET.get('room_id')
         movie_id = request.GET.get('movie_id')
 
-        # Update value in the model 
-        new_votes = Movie.objects.filter(room_id=room_id).filter(id=movie_id).num_votes + 1
-        Movie.objects.filter(room_id=room_id).get(id=movie_id).update(num_votes=new_votes)
+        # Filter movie based on movie and room id
+        movie = Movie.objects.get(id=movie_id)
+
+        # Get new votes 
+        new_votes = movie.num_votes + 1
+
+        # Update the movie votes
+        movie.num_votes = new_votes
+        movie.save()
+
+        return Response(MovieSerializer(movie).data)
