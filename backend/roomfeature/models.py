@@ -13,11 +13,11 @@ import string
 def generate_unique_code(n):
 
     while True: 
-        code = get_random_string(n)
+        code = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(n))
         
         # Check if the code is unique
-        if Room.objects.get(room_code=code):
-            break 
+        if Room.objects.filter(room_code=code).count() == 0:
+            break
     
     return code
 
@@ -25,7 +25,7 @@ def generate_unique_code(n):
 ''' Class designed to hold the details of a room '''
 class Room(models.Model):
     
-        room_code = models.CharField(max_length=10, null=True, unique=True) # unique id for room
+        room_code = models.CharField(max_length=10, unique=True, default='') # unique id for room
         room_description = models.CharField(default='', max_length=300)     
         created_at = models.DateTimeField(auto_now_add=True)
         # room_image = models.ImageField(upload_to='room_images', blank=True, null=True)

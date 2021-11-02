@@ -41,6 +41,7 @@ class CreateRoomView(APIView):
     serializer_class = CreateRoomSerializer
     
     def post(self, request):
+        
         # Serializer instance 
         serializer = self.serializer_class(data=request.data)
 
@@ -50,7 +51,7 @@ class CreateRoomView(APIView):
         # Check if the serializer is valid
         if serializer.is_valid():
             
-            new_room = serializer.save()
+            new_room = serializer.create_room()
 
             data['success'] = True
             data['room_code'] = new_room.room_code
