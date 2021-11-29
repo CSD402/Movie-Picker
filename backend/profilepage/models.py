@@ -39,7 +39,7 @@ class Profile(models.Model):
     
     def is_exists(self):
         ''' Check whether a user exists in the database '''
-        if Profile.objects.get(email=self.email): 
+        if Profile.objects.filter(email=self.email): 
             return True
         else:
             return False

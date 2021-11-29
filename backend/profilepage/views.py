@@ -71,4 +71,48 @@ class RegisterUser(APIView):
             return Response(data)
 
 class LoginUser(APIView):
+    ''' View to login a user based on their credentials '''
+
+    # Define class variables 
+    serializer_class = LoginUserSerializer
+
+    # Function to handle a POST request 
+    def post(self, request):
+
+        # Create a serializer instance 
+        serializer = self.serializer_class(data=request.data)
+
+        data = {}    # Data to be returned to the user
+
+        if serializer.is_valid():
+            
+            login_input = serializer.data
+            
+            # Get the data
+            email = login_input.get('email')
+            password = login_input.get('password')
+
+            # Get the customer details
+            user = Profile.get_user_by_email(email)
+
+            # Check if the user exists 
+            if user:
+                # if check_password(password, customer.password):
+                if check_password(password, user.password):
+
+                    # Return the email ID and success if the password is correct
+                    data['success'] = 'True'
+                    data['user_id'] = user.id
+                    data['email'] = user.email
+                    data['name'] = user.firstname
+
+                else:
+                    data['error'] = 'Invalid Password'
+            else:
+                data['error'] = 'User Does not exist'
+        
+        else: 
+            data['error'] = "Some other Error occurred"
+
+        return Response(data)
     pass 

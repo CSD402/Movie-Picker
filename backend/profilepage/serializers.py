@@ -63,4 +63,10 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         new_user.save()
 
         return new_user
-        
+
+''' Log in Customer Serializer Class which handles email and password '''
+class LoginUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ('email', 'password')
