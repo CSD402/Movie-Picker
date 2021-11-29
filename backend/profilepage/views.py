@@ -115,4 +115,37 @@ class LoginUser(APIView):
             data['error'] = "Some other Error occurred"
 
         return Response(data)
-    pass 
+    pass
+
+class Recommendation(APIView):
+
+    ''' Provide recommendations for the user '''
+    
+    serializer_class = RecommendationSerializer
+
+    def post(self, request, format=None):
+
+        ''' POST Request handler '''
+    
+        # Serializer instance 
+        serializer = self.serializer_class(data=request.data)
+
+        print(request.data)
+
+        # Data to be returned 
+        data = {}
+
+        # Check if the serializer is valid
+        if serializer.is_valid():
+            
+            new_user = serializer.save()
+
+            data['success'] = True
+            data['email'] = new_user.email
+            data['firstname'] = new_user.firstname
+            data['lastname'] = new_user.lastname
+
+        else: 
+            data = serializer.errors
+        
+        return Response(data)

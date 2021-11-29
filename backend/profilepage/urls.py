@@ -6,4 +6,5 @@ urlpatterns = [
     path('users', ProfilePageView.as_view()),
     path('register', RegisterUser.as_view()),
     path('login', LoginUser.as_view()),
+    path('recommend', Recommendation.as_view()),
 ]

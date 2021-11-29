@@ -28,6 +28,16 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('firstname', 'lastname', 'email', 'date_created', 'profile_picture')
 
+''' Provide Recommendation to users '''
+class RecommendationSerializer(serializers.ModelSerializer):
+
+    class Meta: 
+        model = Preferences
+        fields = '__all__'
+    
+    def get_recommendations(self, data):
+        pass
+
 ''' Register Customer Serializer Class '''
 class RegisterUserSerializer(serializers.ModelSerializer):
 

@@ -7,6 +7,7 @@ from django.http.response import StreamingHttpResponse
 
 '''Profile Model to save the user information'''
 class Profile(models.Model):
+    
     firstname = models.CharField(max_length=200, null=False, default="John") 
     lastname = models.CharField(max_length=200, null=True)
     email = models.EmailField(default='email@email.com')
@@ -47,3 +48,15 @@ class Profile(models.Model):
     ''' Function to register the data in the database '''
     def register(self):
         self.save()
+
+''' Model to save the prefernces of the user '''
+class Preferences(models.Model):
+
+    genre = models.CharField(max_length=100)
+    start_year = models.IntegerField()
+    end_year = models.IntegerField()
+    language = models.CharField(max_length=100)
+    runtime = models.IntegerField()
+    rating = models.FloatField()
+
+    
