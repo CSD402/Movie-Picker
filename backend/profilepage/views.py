@@ -115,7 +115,6 @@ class LoginUser(APIView):
             data['error'] = "Some other Error occurred"
 
         return Response(data)
-    pass
 
 class Recommendation(APIView):
 
