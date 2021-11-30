@@ -44,6 +44,12 @@ class Movie(models.Model):
     # which room is the movie associated with 
     room_id = models.ForeignKey(Room, on_delete=models.CASCADE, default=1)
 
-     # Override the __str__ method to return the firstname and lastname
+    # Override the __str__ method to return the firstname and lastname
     def __str__(self):
         return self.movie_name
+    
+    # Function to return the movie with the highest votes in a room 
+    @staticmethod
+    def get_best_room_movie(room_id=room_id):
+        return Movie.objects.filter(room_id=room_id).order_by('-num_votes')[0]
+        

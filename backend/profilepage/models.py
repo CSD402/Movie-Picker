@@ -16,7 +16,6 @@ class Profile(models.Model):
     date_updated = models.DateTimeField(auto_now=True, null=True)
     profile_picture = models.ImageField(upload_to='profile', blank=True, null=True)
     # movies_seen = ArrayField(models.CharField(max_length=200), default=list)
-    
 
     # Override the __str__ method to return the firstname and lastname
     def __str__(self):
@@ -40,7 +39,7 @@ class Profile(models.Model):
     
     def is_exists(self):
         ''' Check whether a user exists in the database '''
-        if Profile.objects.filter(email=self.email): 
+        if Profile.objects.get(email=self.email): 
             return True
         else:
             return False
@@ -59,4 +58,3 @@ class Preferences(models.Model):
     runtime = models.IntegerField()
     rating = models.FloatField()
 
-    

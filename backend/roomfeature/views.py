@@ -6,6 +6,9 @@ from rest_framework.serializers import Serializer
 from rest_framework.views import APIView, View
 from django.http import HttpResponse, JsonResponse
 from itertools import chain
+import pandas as pd
+import json
+import ast 
 from rest_framework import viewsets
 
 # Custom imports 
@@ -58,6 +61,33 @@ class CreateRoomView(APIView):
             data['room_desc'] = new_room.room_description
             data['created_at'] = new_room.created_at
 
+
+            '''Get a list of 5 movies'''
+
+            # Read the data 
+            movie_data = pd.read_csv('movies_metadata.csv')
+
+            # Get 5 movies from the data
+            movie_sample_df = movie_data.sample(10)
+
+            # Get the room ID
+            current_room_id = new_room.id
+            print(current_room_id)
+
+            for i in range(5):
+                
+                movie_genre_list = ast.literal_eval(movie_sample_df.iloc[i]['genres'])[0]
+                genre = movie_genre_list['name']
+                movie = Movie(movie_name=movie_sample_df.iloc[i]['title'], 
+                                movie_description=movie_sample_df.iloc[i]['overview'], 
+                                movie_genre=genre, 
+                                room_id=new_room)
+
+                # Save the movie
+                movie.save()
+
+        
+
         else: 
             data = serializer.errors
         
@@ -108,5 +138,26 @@ class SwipeView(APIView):
         movie.num_votes = new_votes
         movie.save()
 
-        return Response(MovieSerializer(movie).data)
+        # Add success data 
+        data = {
+            'success': True,
+            'movie_name': movie.movie_name,
+            'id': movie.id,
+            'num_votes': movie.num_votes
+        }
+        return Response(data)
 
+''' Define a view to get the best movie in a room '''
+class PickBestMovie(APIView): 
+    
+    def get(self, request):
+
+        queryset = []
+
+        # Collect the room ID 
+        room_id = request.GET.get('room_id')
+
+        queryset = Movie.get_best_room_movie(room_id)
+
+        # Return the movie data
+        return Response(MovieSerializer(queryset).data)
