@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-v^^z7f28u7v+1ga^yy(m=ob$+^%wl-f1cw_i+a_-1qu=5-#yog
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'profilepage.apps.ProfilepageConfig', 
     'roomfeature.apps.RoomfeatureConfig', 
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [

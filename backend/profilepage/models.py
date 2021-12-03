@@ -57,4 +57,5 @@ class Preferences(models.Model):
     language = models.CharField(max_length=100)
     runtime = models.IntegerField()
     rating = models.FloatField()
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
