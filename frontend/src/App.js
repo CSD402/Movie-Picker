@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
+import Homepage from "./components/Homepage"
 
+
+import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
+
+const theme = createMuiTheme();
+
+const useStyles = makeStyles((theme) => {
+  root: {
+    // some CSS that access to theme
+  }
+});
 class App extends Component {
   constructor(props) {
     super(props);
@@ -129,7 +140,20 @@ class App extends Component {
 
   render() {
     return (
-      <main className="container">
+      <div>
+        <Homepage />
+      </div>
+
+      
+    );
+  }
+}
+
+export default App;
+
+
+
+{/* <main className="container">
         <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
@@ -156,9 +180,4 @@ class App extends Component {
             onSave={this.handleSubmit}
           />
         ) : null}
-      </main>
-    );
-  }
-}
-
-export default App;
+      </main> */}
