@@ -57,6 +57,7 @@ class CreateRoomView(APIView):
             new_room = serializer.create_room()
 
             data['success'] = True
+            data['room_id'] = new_room.id
             data['room_code'] = new_room.room_code
             data['room_desc'] = new_room.room_description
             data['created_at'] = new_room.created_at
