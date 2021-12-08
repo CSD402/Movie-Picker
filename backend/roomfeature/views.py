@@ -79,9 +79,15 @@ class CreateRoomView(APIView):
 
             for i in range(10):
                 
-                movie_genre_list = ast.literal_eval(movie_sample_df.iloc[i]['genres'])[0]
-                genre = movie_genre_list['name']
-                movie = Movie(movie_name=movie_sample_df.iloc[i]['title'], 
+                try: 
+                    movie_genre_list = ast.literal_eval(movie_sample_df.iloc[i]['genres'])[0]
+                    genre = movie_genre_list['name']
+                
+                except: 
+                    genre = 'None'
+
+                finally: 
+                    movie = Movie(movie_name=movie_sample_df.iloc[i]['title'], 
                                 movie_description=movie_sample_df.iloc[i]['overview'], 
                                 movie_genre=genre, 
                                 room_id=new_room)
