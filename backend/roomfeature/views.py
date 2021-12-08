@@ -27,10 +27,16 @@ class RoomView(APIView):
 
         # Collect the room ID 
         room_id = request.GET.get('room_id')
+        room_code = request.GET.get('room_code')
 
         if room_id: 
             # Get the room data
             queryset = Room.objects.filter(id=room_id)
+        
+        if room_code:
+            # Get the room data
+            queryset = Room.objects.filter(room_code=room_code)
+
         else: 
             queryset = Room.objects.all() 
 
@@ -68,14 +74,10 @@ class CreateRoomView(APIView):
             # Read the data 
             movie_data = pd.read_csv('movies_metadata.csv')
 
-            # Get 5 movies from the data
+            # Get 10 movies from the data
             movie_sample_df = movie_data.sample(10)
 
-            # Get the room ID
-            current_room_id = new_room.id
-            print(current_room_id)
-
-            for i in range(5):
+            for i in range(10):
                 
                 movie_genre_list = ast.literal_eval(movie_sample_df.iloc[i]['genres'])[0]
                 genre = movie_genre_list['name']
@@ -162,3 +164,43 @@ class PickBestMovie(APIView):
 
         # Return the movie data
         return Response(MovieSerializer(queryset).data)
+
+''' Define a view to get more movies in a room '''
+class GetMoreMovies(APIView):
+
+    def get(self, request):
+
+        # Collect the room ID
+        room_id = request.GET.get('room_id')
+
+        # Get room obj to enter in the movie field
+        room_obj = Room.objects.get(id=room_id)
+
+        # Read the data 
+        movie_data = pd.read_csv('movies_metadata.csv')
+
+        # Get 5 movies from the data
+        movie_sample_df = movie_data.sample(5)
+
+        for i in range(5):
+            
+            try: 
+                movie_genre_list = ast.literal_eval(movie_sample_df.iloc[i]['genres'])[0]
+                genre = movie_genre_list['name']
+                movie = Movie(movie_name=movie_sample_df.iloc[i]['title'], 
+                                movie_description=movie_sample_df.iloc[i]['overview'], 
+                                movie_genre=genre, 
+                                room_id=room_obj)
+            except: 
+                genre = 'No genre'
+                movie = Movie(movie_name=movie_sample_df.iloc[i]['title'], 
+                                movie_description=movie_sample_df.iloc[i]['overview'], 
+                                movie_genre=genre, 
+                                room_id=room_obj)
+
+            # Save the movie
+            movie.save()
+
+        # Return the movie data
+        return Response({'success': True, 
+                        'room_id': room_id})
