@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.refreshList();
+    //this.refreshList();
   }
 
   refreshList = () => {

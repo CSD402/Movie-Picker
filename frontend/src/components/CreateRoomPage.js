@@ -11,13 +11,21 @@ import { Link } from "react-router-dom";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import axios from "axios";
+//import { useHistory } from "react-router-dom";
+
+
 
 export default class CreateRoomPage extends Component{
 	defaultVotes = 2;
 	constructor(props){
 		super(props);
+		console.log(this.props)
 		this.state={guestCanPause: true,
-			votesToSkip: this.defaultVotes}
+			votesToSkip: this.defaultVotes,
+			room_desc:""
+		
+	}
 	}
 
 	componentDidMount = ()=>{
@@ -45,7 +53,7 @@ export default class CreateRoomPage extends Component{
 	  } */
 	  handleVotesChange=(e)=> {
 		this.setState({
-		  votesToSkip: e.target.value,
+			room_desc: e.target.value,
 		});
 	  }
 
@@ -58,7 +66,7 @@ export default class CreateRoomPage extends Component{
 
 	handleRoomButtonPressed=()=> {
 
-	/* 	console.log(this.state)
+		console.log(this.state)
 
 		const requestOptions = { 
 		method: "POST",
@@ -68,7 +76,35 @@ export default class CreateRoomPage extends Component{
 			guest_can_skip: this.state.guestCanPause,
 		}),
 		};
-		fetch("/api/create-room", requestOptions)
+
+		axios
+		.post("http://localhost:8000/rooms/addroom",{
+			room_description:this.state.room_desc
+		})
+		.then((res)=>{
+			console.log(res)
+			let room_id = res.data["room_id"]
+			//console.log(res.data["room_id"])
+			/* let room = res.data.room_id
+			console.log(room) */
+			/* this.props.history.push({
+				pathname:`/room/${room_id}`
+
+			  }); */
+			//const history = useHistory();
+			//history.push('/room/$'+room_id)
+			  
+
+			window.open('/room/'+room_id);
+			/* axios
+			.get("http://127.0.0.1:8000/rooms/movies?room_id="+room_id)
+			.then((res)=>{
+				console.log(res)	
+			}) */
+		
+		})
+
+		/* fetch("/api/create-room", requestOptions)
 		.then((response) => response.json()) //getting response from api
 		.then((data) =>{ 
 			console.log(data)
@@ -81,7 +117,13 @@ export default class CreateRoomPage extends Component{
 	render(){
 		
 		return(
-		<Grid container spacing={1}>
+	<div style={{backgroundColor:"#EFBFAE",
+    height: "100%",
+	  position: "absolute",
+	  left: 0,
+	  width: "100%",
+	  overflow:'auto'}}>
+		  	<Grid container spacing={1} style={{backgroundColor:"#EFBFAE"}}>
 			<Grid item xs={12} align="center">
 				<Typography component="h4" variant="h4">
 					Create A Room
@@ -91,26 +133,9 @@ export default class CreateRoomPage extends Component{
 			<Grid item xs={12} align="center">
 				<FormControl component="fieldset">
 					<FormHelperText>
-					<div align="center">Guest Control of Playback State</div>
+					<div align="center">Enter the room description</div>
 					</FormHelperText>
-					<RadioGroup
-					row
-					defaultValue="true"
-					onChange={this.handleGuestCanPauseChange}
-					>
-					<FormControlLabel
-						value="true"
-						control={<Radio color="primary" />}
-						label="Play/Pause"
-						labelPlacement="bottom"
-					/>
-					<FormControlLabel
-						value="false"
-						control={<Radio color="secondary" />}
-						label="No Control"
-						labelPlacement="bottom"
-					/>
-					</RadioGroup>
+					
 				</FormControl>
 			</Grid>
 
@@ -118,7 +143,7 @@ export default class CreateRoomPage extends Component{
 				<FormControl>
 					<TextField
 					required={true}
-					type="number"
+					type="string"
 					inputProps={{
 						min: 1,
 						style: { textAlign: "center" },
@@ -126,7 +151,7 @@ export default class CreateRoomPage extends Component{
 					onChange={this.handleVotesChange}
 					/>
 					<FormHelperText>
-					<div align="center">Votes Required To Skip Song</div>
+					<div align="center">Description</div>
 					</FormHelperText>
 				</FormControl>
 			</Grid>
@@ -141,12 +166,10 @@ export default class CreateRoomPage extends Component{
 				</Button>
 			</Grid>
 
-			<Grid item xs={12} align="center">
-				<Button color="secondary" variant="contained" to="/" component={Link}>
-					Back
-				</Button>
-			</Grid>
+			
       </Grid>
+	</div>
+		
 		)
 	}
 }

@@ -3,6 +3,7 @@ import CreateRoomPage from "./CreateRoomPage"
 import HomeMinder from "./HomeMinder";
 import ProfileMinder from "./ProfileMinder";
 import JoinRoomPage from "./JoinRoomPage";
+import Room from "./Room"
 //import RoomJoinPage from "./RoomJoinPage"
 //import HomeMinder from "./HomeMinder"
 //import Room from "./Room";
@@ -12,7 +13,7 @@ import {
 	Routes,
 	Route,
 	Link,
-	Redirect
+	Redirect,
 } from "react-router-dom";
 
 
@@ -33,11 +34,12 @@ export default class HomePage extends Component{
 		return(
 			<Router>
 				<Routes>
-					<Route  path="/" element={<CreateRoomPage/>} />
+					<Route path="/" element={<CreateRoomPage/>} />
 					<Route path="/create" element={<CreateRoomPage/>}/>
 					<Route path="/homeminder" element={<HomeMinder/>}/>
 					<Route path="/profileminder" element={<ProfileMinder/>}/>
 					<Route path="/joinRoom" element={<JoinRoomPage/>}/>
+					<Route path="/room/:roomCode" element={<Room/>} />
 					{/* <Route path="/join" component={RoomJoinPage}></Route>
 					<Route path="/homeminder" component={HomeMinder}></Route>
 					<Route path="/profileminder" component={ProfileMinder}></Route>

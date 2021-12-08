@@ -27,20 +27,20 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 export default class HomeMinder extends Component{
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 		this.state={
 			email:'',
 			password:'',
 			anchorElNav:null,
 			anchorElUser:null
-
 		}
 	}
 
 
   componentDidMount(){
     console.log("Home page mounted")
+    
   }
 	login = ()=>{
 		console.log("In login")
@@ -228,20 +228,20 @@ export default class HomeMinder extends Component{
 	
 	>
 		<Grid item md={12} >
-			<Button variant="contained" style={{backgroundColor: '#E18B6D',borderRadius:10}} fullWidth>
+			<Button variant="contained" style={{backgroundColor: '#E18B6D',borderRadius:10}} fullWidth onClick={()=>{
+          window.open("/create","_self")
+      }}>
 				Create Room
 			</Button>
 		</Grid>
 		<Grid item md={12} >
-			<Button variant="contained" style={{backgroundColor: '#E18B6D'}} fullWidth>
+			<Button variant="contained" style={{backgroundColor: '#E18B6D'}} fullWidth onClick={()=>{
+          window.open("/joinRoom","_self")
+      }}>
 				Join Room
 			</Button>
 		</Grid>
-		<Grid item md={12} >
-			<Button variant="contained" style={{backgroundColor: '#E18B6D'}} fullWidth>
-				Room Code
-			</Button>
-		</Grid>
+		
 
 		
 
